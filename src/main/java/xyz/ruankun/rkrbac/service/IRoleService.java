@@ -5,7 +5,6 @@ import xyz.ruankun.rkrbac.server.ServerResponse;
 
 /**
  * @author: mrruan
- * @date: 2019-09-16 23:16
  * @description:
  */
 public interface IRoleService {

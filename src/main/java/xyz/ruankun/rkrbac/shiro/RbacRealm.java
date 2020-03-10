@@ -21,7 +21,6 @@ import java.util.Set;
 
 /**
  * @author: mrruan
- * @date: 2019-09-16 20:23
  * @description:
  */
 @Slf4j
@@ -48,7 +47,7 @@ public class RbacRealm extends AuthorizingRealm {
         User user = (User) principalCollection.getPrimaryPrincipal();
         List<String> permissionUrlList;
         // 超级管理员则放行全部请求
-        if (Const.ADMIN_USERNAME == user.getUsername()) {
+        if (Const.ADMIN_USERNAME.equals(user.getUsername())) {
             permissionUrlList = iPermissionService.listPermissionUrl(null);
         } else {
             permissionUrlList = iPermissionService.listPermissionUrl(user.getId());
@@ -59,6 +58,7 @@ public class RbacRealm extends AuthorizingRealm {
         System.out.println("没去空之前");
         System.out.println(permissionUrlSet);
         permissionUrlSet.remove(null);
+        permissionUrlSet.remove("");
         System.out.println("去空后");
         System.out.println(permissionUrlSet);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();

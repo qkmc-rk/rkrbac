@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author: mrruan
- * @date: 2019-09-16 23:15
  * @description:
  */
 public interface IPermissionService {

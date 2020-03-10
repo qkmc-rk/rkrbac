@@ -9,7 +9,6 @@ import xyz.ruankun.rkrbac.service.IPermissionService;
 
 /**
  * @author: mrruan
- * @date: 2019-02-04 00:55
  * @description:
  */
 @RestController
@@ -21,7 +20,7 @@ public class PermissionController {
 
     @GetMapping("listPermission")
     @RequiresPermissions("permission:listPermission")
-    public ServerResponse listPermission() {
+    public ServerResponse listPermission(String token) {
         return iPermissionService.listPermission();
     }
 

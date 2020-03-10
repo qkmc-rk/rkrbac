@@ -4,12 +4,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.ruankun.rkrbac.model.Role;
+import xyz.ruankun.rkrbac.model.RolePermission;
 import xyz.ruankun.rkrbac.server.ServerResponse;
+import xyz.ruankun.rkrbac.service.IRolePermissionService;
 import xyz.ruankun.rkrbac.service.IRoleService;
 
 /**
  * @author: mrruan
- * @date: 2019-02-04 00:55
  * @description:
  */
 @RestController
@@ -18,6 +19,9 @@ public class RoleController {
 
     @Autowired
     private IRoleService iRoleService;
+
+    @Autowired
+    private IRolePermissionService rolePermissionService;
 
     @GetMapping("listRole")
     @RequiresPermissions("role:listRole")
@@ -42,4 +46,24 @@ public class RoleController {
     public ServerResponse deleteRole(String ids) {
         return iRoleService.deleteRole(ids);
     }
+
+    // 增加权限
+    @PostMapping("insertRolePermission")
+    @RequiresPermissions("role:insertRole")
+    public ServerResponse isertRolePermission(RolePermission rolePermission){
+        return rolePermissionService.isertRolePermission(rolePermission);
+    }
+    // 删除权限
+    @GetMapping("listRolePermission")
+    @RequiresPermissions("role:listRole")
+    public ServerResponse listRolePermission(Integer roleId){
+        return rolePermissionService.listRolePermission(roleId);
+    }
+
+    @DeleteMapping("deleteRolePermission")
+    @RequiresPermissions("role:deleteRole")
+    public ServerResponse deleteUserRole(Integer roleId, Integer permissionId){
+        return rolePermissionService.deleteRolePermission(roleId, permissionId);
+    }
+    // 查询权限
 }

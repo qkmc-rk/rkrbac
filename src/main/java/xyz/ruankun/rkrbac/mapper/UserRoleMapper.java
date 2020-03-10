@@ -7,6 +7,7 @@ import xyz.ruankun.rkrbac.model.UserRole;
 import xyz.ruankun.rkrbac.model.UserRoleExample;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -32,4 +33,5 @@ public interface UserRoleMapper {
     int updateByPrimaryKeySelective(UserRole record);
 
     int updateByPrimaryKey(UserRole record);
+
 }

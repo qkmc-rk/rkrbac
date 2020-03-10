@@ -5,7 +5,6 @@ import xyz.ruankun.rkrbac.server.ServerResponse;
 
 /**
  * @author: mrruan
- * @date: 2019-09-15 14:15
  * @description:
  */
 public interface IUserService {

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author: mrruan
- * @date: 2019-02-04 16:45
  * @description:
  */
 @Configuration

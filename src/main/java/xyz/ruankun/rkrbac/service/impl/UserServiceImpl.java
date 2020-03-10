@@ -1,26 +1,39 @@
 package xyz.ruankun.rkrbac.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.ruankun.rkrbac.mapper.RoleMapper;
 import xyz.ruankun.rkrbac.mapper.UserMapper;
+import xyz.ruankun.rkrbac.mapper.UserRoleMapper;
+import xyz.ruankun.rkrbac.model.Role;
 import xyz.ruankun.rkrbac.model.User;
 import xyz.ruankun.rkrbac.model.UserExample;
+import xyz.ruankun.rkrbac.model.UserRole;
 import xyz.ruankun.rkrbac.server.ServerResponse;
 import xyz.ruankun.rkrbac.service.IUserService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: mrruan
- * @date: 2019-09-15 14:15
  * @description:
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public ServerResponse login(String username, String password) {
@@ -37,6 +50,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserByUsername(String username) {
+        log.info("嘿嘿:{}", username);
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
         List<User> userList = userMapper.selectByExample(userExample);
@@ -53,9 +67,9 @@ public class UserServiceImpl implements IUserService {
             userExample.createCriteria().andEmailLike("%" + user.getEmail() + "%");
         }
         List<User> userList = userMapper.selectByExample(userExample);
+        userList.forEach(System.out::println);
         return ServerResponse.success("查询成功", userList);
     }
-
     @Override
     public ServerResponse insertUser(User user) {
         int count = userMapper.insertSelective(user);
@@ -76,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse deleteUser(String ids) {
-        int count = userMapper.deleteByPrimaryKey(1);
+        int count = userMapper.deleteByPrimaryKey(Integer.parseInt(ids));
         if (count > 0) {
             return ServerResponse.success("删除成功");
         }

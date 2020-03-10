@@ -1,15 +1,17 @@
 package xyz.ruankun.rkrbac.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.ruankun.rkrbac.model.User;
+import xyz.ruankun.rkrbac.model.UserRole;
 import xyz.ruankun.rkrbac.server.ServerResponse;
+import xyz.ruankun.rkrbac.service.IUserRoleService;
 import xyz.ruankun.rkrbac.service.IUserService;
 
 /**
  * @author: mrruan
- * @date: 2019-02-04 00:55
  * @description:
  */
 @RestController
@@ -19,9 +21,13 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private IUserRoleService userRoleService;
+
     @GetMapping("getUser")
     public ServerResponse getUser() {
-        return ServerResponse.success("查询成功");
+        User principal = (User)SecurityUtils.getSubject().getPrincipal();
+        return ServerResponse.success(principal);
     }
 
     @GetMapping("listUser")
@@ -46,5 +52,24 @@ public class UserController {
     @DeleteMapping("deleteUser")
     public ServerResponse deleteUser(String ids) {
         return iUserService.deleteUser(ids);
+    }
+
+    // 给予user权限相当于修改user
+    @PostMapping("insertUserRole")
+    @RequiresPermissions("user:updateUser")
+    public ServerResponse insertUserRole(UserRole userRole){
+        return userRoleService.insertUserRole(userRole);
+    }
+
+    @GetMapping("listUserRole")
+    @RequiresPermissions("user:listUser")
+    public ServerResponse listUserRole(Integer userId){
+        return userRoleService.listUserRole(userId);
+    }
+
+    @DeleteMapping("deleteUserRole")
+    @RequiresPermissions("user:deleteUser")
+    public ServerResponse deleteUserRole(Integer userId, Integer roleId){
+        return userRoleService.deleteUserRole(userId, roleId);
     }
 }

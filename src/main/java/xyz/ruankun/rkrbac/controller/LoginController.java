@@ -11,7 +11,6 @@ import xyz.ruankun.rkrbac.server.ServerResponse;
 
 /**
  * @author: mrruan
- * @date: 2019-02-04 00:55
  * @description:
  */
 @RestController

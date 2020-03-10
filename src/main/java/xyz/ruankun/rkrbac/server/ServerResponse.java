@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 /**
  * @author: mrruan
- * @date: 2018/7/16 14:55
  * @description:
  */
 @Getter

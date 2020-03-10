@@ -13,7 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author: mrruan
- * @date: 2018/11/7 22:31
  * @description:
  */
 @Configuration
@@ -23,7 +22,7 @@ public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("rkrbac")
+                .groupName("whystudio")
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("xyz.ruankun.rkrbac"))
@@ -38,7 +37,7 @@ public class Swagger2Config {
                 .description("关于作者")
                 .termsOfServiceUrl("https://github.com/qkmc-rk")
                 .contact(contact)
-                .version("v1.1")
+                .version("v1.0")
                 .build();
     }
 }

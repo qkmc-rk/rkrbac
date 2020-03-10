@@ -5,7 +5,6 @@ import lombok.Getter;
 
 /**
  * @author: mrruan
- * @date: 2018/7/16 14:52
  * @description:
  */
 public class Const {
