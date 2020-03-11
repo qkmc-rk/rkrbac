@@ -32,6 +32,16 @@ public class User implements Serializable {
 
     private Date updateTime;
 
+    private List<String> roles;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -157,6 +167,7 @@ public class User implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", roles=").append(roles);
         sb.append("]");
         return sb.toString();
     }

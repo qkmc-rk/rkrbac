@@ -14,7 +14,7 @@ public interface IRoleService {
      *
      * @return
      */
-    ServerResponse listRole();
+    ServerResponse listRole(Role role);
 
     /**
      * 插入角色

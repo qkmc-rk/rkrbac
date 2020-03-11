@@ -4,17 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.ruankun.rkrbac.mapper.RoleMapper;
 import xyz.ruankun.rkrbac.mapper.UserMapper;
 import xyz.ruankun.rkrbac.mapper.UserRoleMapper;
-import xyz.ruankun.rkrbac.model.Role;
-import xyz.ruankun.rkrbac.model.User;
-import xyz.ruankun.rkrbac.model.UserExample;
-import xyz.ruankun.rkrbac.model.UserRole;
+import xyz.ruankun.rkrbac.model.*;
 import xyz.ruankun.rkrbac.server.ServerResponse;
+import xyz.ruankun.rkrbac.service.IUserRoleService;
 import xyz.ruankun.rkrbac.service.IUserService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +58,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional
     public ServerResponse listUser(User user) {
         UserExample userExample = new UserExample();
         if (StringUtils.isNotBlank(user.getUsername())) {
@@ -67,6 +68,16 @@ public class UserServiceImpl implements IUserService {
             userExample.createCriteria().andEmailLike("%" + user.getEmail() + "%");
         }
         List<User> userList = userMapper.selectByExample(userExample);
+        userList.forEach(item -> {
+            List<String> roles = new ArrayList<>();
+            UserRoleExample userRoleExample = new UserRoleExample();
+            userRoleExample.createCriteria().andUserIdEqualTo(item.getId());
+            List<UserRole> userRoles = userRoleMapper.selectByExample(userRoleExample);
+            userRoles.forEach(ur -> {
+                roles.add(ur.getRemarks());
+            });
+            item.setRoles(roles);
+        });
         userList.forEach(System.out::println);
         return ServerResponse.success("查询成功", userList);
     }

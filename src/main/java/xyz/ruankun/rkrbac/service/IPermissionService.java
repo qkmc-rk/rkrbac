@@ -24,7 +24,7 @@ public interface IPermissionService {
      *
      * @return
      */
-    ServerResponse listPermission();
+    ServerResponse listPermission(Permission permission);
 
     /**
      * 插入权限

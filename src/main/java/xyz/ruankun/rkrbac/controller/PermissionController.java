@@ -20,8 +20,8 @@ public class PermissionController {
 
     @GetMapping("listPermission")
     @RequiresPermissions("permission:listPermission")
-    public ServerResponse listPermission(String token) {
-        return iPermissionService.listPermission();
+    public ServerResponse listPermission(Permission permission) {
+        return iPermissionService.listPermission(permission);
     }
 
     @PostMapping("insertPermission")

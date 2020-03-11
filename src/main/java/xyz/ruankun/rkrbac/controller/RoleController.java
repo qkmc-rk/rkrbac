@@ -25,11 +25,11 @@ public class RoleController {
 
     @GetMapping("listRole")
     @RequiresPermissions("role:listRole")
-    public ServerResponse listRole() {
-        return iRoleService.listRole();
+    public ServerResponse listRole(Role role) {
+        return iRoleService.listRole(role);
     }
 
-    @PostMapping("insertRole")
+    @PostMapping("insertRole")  // url  role/insertRole
     @RequiresPermissions("role:insertRole")
     public ServerResponse insertRole(Role role) {
         return iRoleService.insertRole(role);

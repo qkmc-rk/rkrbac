@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.ruankun.rkrbac.mapper.RoleMapper;
 import xyz.ruankun.rkrbac.model.Role;
+import xyz.ruankun.rkrbac.model.RoleExample;
 import xyz.ruankun.rkrbac.server.ServerResponse;
 import xyz.ruankun.rkrbac.service.IRoleService;
+import xyz.ruankun.rkrbac.util.StringUtils;
 
 import java.util.List;
 
@@ -20,8 +22,15 @@ public class RoleServiceImpl implements IRoleService {
     private RoleMapper roleMapper;
 
     @Override
-    public ServerResponse listRole() {
-        List<Role> roleList = roleMapper.selectByExample(null);
+    public ServerResponse listRole(Role role) {
+        List<Role> roleList;
+        if (!StringUtils.isEmpty(role.getName())){
+            RoleExample roleExample = new RoleExample();
+            roleExample.createCriteria().andNameLike("%" + role.getName() + "%");
+            roleList = roleMapper.selectByExample(roleExample);
+        } else {
+            roleList = roleMapper.selectByExample(null);
+        }
         return ServerResponse.success("查询成功", roleList);
     }
 
@@ -45,7 +54,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public ServerResponse deleteRole(String ids) {
-        int count = roleMapper.deleteByPrimaryKey(1);
+        int count = roleMapper.deleteByPrimaryKey(Integer.parseInt(ids));
         if (count > 0) {
             return ServerResponse.success("删除成功");
         }

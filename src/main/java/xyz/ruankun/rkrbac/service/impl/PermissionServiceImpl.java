@@ -10,6 +10,7 @@ import xyz.ruankun.rkrbac.model.*;
 import xyz.ruankun.rkrbac.server.ServerResponse;
 import xyz.ruankun.rkrbac.service.IPermissionService;
 import xyz.ruankun.rkrbac.util.CliUtils;
+import xyz.ruankun.rkrbac.util.StringUtils;
 import xyz.ruankun.rkrbac.vo.PermissionVo;
 
 import java.util.ArrayList;
@@ -67,8 +68,16 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public ServerResponse listPermission() {
-        List<Permission> permissionList = permissionMapper.selectByExample(null);
+    public ServerResponse listPermission(Permission permission) {
+        List<Permission> permissionList;
+
+        if (!StringUtils.isEmpty(permission.getName())){
+            PermissionExample permissionExample = new PermissionExample();
+            permissionExample.createCriteria().andNameLike("%" + permission.getName() + "%");
+            permissionList = permissionMapper.selectByExample(permissionExample);
+        } else {
+            permissionList = permissionMapper.selectByExample(null);
+        }
         System.out.println("哈儿permissionList： " + permissionList.toString());
         List<PermissionVo> permissionVoList = listPermissionTree(permissionList, 0);
         System.out.println("哈儿permissionVOList： " + permissionVoList.toString());
@@ -110,7 +119,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public ServerResponse deletePermission(String ids) {
-        int count = permissionMapper.deleteByPrimaryKey(1);
+        int count = permissionMapper.deleteByPrimaryKey(Integer.parseInt(ids));
         if (count > 0) {
             return ServerResponse.success("删除成功");
         }
